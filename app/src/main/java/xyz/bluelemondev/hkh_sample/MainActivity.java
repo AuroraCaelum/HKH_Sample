@@ -18,6 +18,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
     String SearchingRadius;
 
     String APIKey = "szwzJ0CofY7gfIsU7KqrwCs79Lhnbis1VwbketfdGSG%2FuJAVdRoEeeEt3SQFLI8qIxFuIlwhV4Kp7PDl4aJToQ%3D%3D";
-
-    List<Hospital> hospitalList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 HospitalInfo11 = getHospData11();
                 HospitalInfo01 = getHospData01();
                 HospitalBase = HospitalInfo11 + HospitalInfo01;
+                makeList(HospitalBase);
                 //String nearer = makeList();
                 /*String regex = "병원 주소: (.+)\\n거리: (.+)m\\n전화번호: (.+)\\n병원명: (.+)";
                 Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
@@ -383,22 +383,34 @@ public class MainActivity extends AppCompatActivity {
         }
     }*/
 
+
+    public static List<Hospital> hospitalList;
+
     class Hospital {
         String name;
         String tel;
         int  distance;
         String addr;
-    }
 
-    public class makeList(String responce) {
-        String regex = "병원 주소: (.+)\\n거리: (.+)m\\n전화번호: (.+)\\n병원명: (.+)";
-        Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-        Matcher m = p.matcher(HospitalBase);
-        while (m.find()){
-                hospitalList.add(new Hospital(m.group(4),m.group(3), Integer.parseInt(m.group(2)), m.group(1)));
-            }
+        public Hospital(String name, String tel, int distance, String addr) {
+            this.name = name;
+            this.tel = tel;
+            this.distance = distance;
+            this.addr = addr;
         }
     }
+
+    public List<Hospital> makeList(String responce) {
+        hospitalList = new ArrayList<>();
+        String regex = "병원 주소: (.+)\\n거리: (.+)m\\n전화번호: (.+)\\n병원명: (.+)";
+        Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(responce);
+        while (m.find()) {
+            hospitalList.add(new Hospital(m.group(4), m.group(3), Integer.parseInt(m.group(2)), m.group(1)));
+        }
+        return hospitalList;
+    }
+}
 
     /*String makeList(){
         String regex = "병원 주소: (.+)\\n거리: (.+)m\\n전화번호: (.+)\\n병원명: (.+)";
@@ -406,4 +418,3 @@ public class MainActivity extends AppCompatActivity {
             hospitalList.add(new Hospital())
         }
     }*/
-}
