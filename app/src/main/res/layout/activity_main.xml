@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button"
+                android:onClick="location"/>
+
+            <TextView
+                android:id="@+id/locat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="좌표"
+                android:layout_below="@+id/button"/>
+
+            <Button
+                android:id="@+id/aedbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button"
+                android:layout_below="@+id/locat"
+                android:layout_marginTop="10dp"
+                android:onClick="getAEDAPI"/>
+
+            <TextView
+                android:id="@+id/apireturn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="API값"
+                android:layout_below="@+id/aedbtn" />
+
+            <EditText
+                android:id="@+id/hospRadius"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="6"
+                android:inputType="number"
+                android:hint="@string/radiushint"
+                android:layout_below="@+id/apireturn"/>
+
+            <Button
+                android:id="@+id/hospital"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button"
+                android:layout_below="@+id/hospRadius"
+                android:layout_marginTop="10dp"
+                android:onClick="getHospAPI"/>
+
+            <TextView
+                android:id="@+id/hospinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="병원정보"
+                android:layout_below="@id/hospital"
+                android:layout_marginTop="10dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

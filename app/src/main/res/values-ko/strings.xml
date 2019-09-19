@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HKH_Sample</string>
+    <string name="radiushint">검색 반경 입력. 기본값: 5000 (미터)</string>
+</resources>

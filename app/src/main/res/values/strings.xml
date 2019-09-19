@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">HKH_Sample</string>
+    <string name="radiushint">Input searching area radius. Default: 5000 (m)</string>
+</resources>
