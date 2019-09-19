@@ -99,21 +99,21 @@ public class MainActivity extends AppCompatActivity {
                 HospitalInfo01 = getHospData01();
                 HospitalBase = HospitalInfo11 + HospitalInfo01;
                 //String nearer = makeList();
-                String regex = "병원 주소: (.+)\\n거리: (.+)m\\n전화번호: (.+)\\n병원명: (.+)";
+                /*String regex = "병원 주소: (.+)\\n거리: (.+)m\\n전화번호: (.+)\\n병원명: (.+)";
                 Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
                 Matcher m = p.matcher(HospitalBase);
                 while (m.find()){
-                    hospitalList.add(new Hospital("\1", "\2", "\3", "\4"));
-                }
-                for (int i=0; i<hospitalList.size(); i++){
+                    hospitalList.add(new Hospital(m.group(1), m.group(2), m.group(3), m.group(4)));
+                }*/
+                //for (int i=0; i<hospitalList.size(); i++){
                     //TODO 입력방법 변경?
                     //TODO https://codeday.me/ko/qa/20190308/21681.html
-                }
+                //}
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         TextView tv = (TextView)findViewById(R.id.hospinfo);
-                        tv.setText(HospitalInfo11 + HospitalInfo01);
+                        tv.setText(hospitalList.toString());
                     }
                 });
             }
@@ -374,33 +374,31 @@ public class MainActivity extends AppCompatActivity {
         return buffer.toString();
     }
 
-    class Hospital{
+    /*class Hospital{
         public Hospital(String nam, String teln, String dis, String addr) {
             String name = nam;
             String tel = teln;
             String distance = dis;
             String address = addr;
         }
+    }*/
+
+    class Hospital {
+        String name;
+        String tel;
+        int  distance;
+        String addr;
     }
 
-    /*class Hospital {
-        private String name;
-        private String tel;
-        private String distance;
-        private String address;
-    }*/
-
-    /*public class makeList{
-        public void main(String[] args){
-            String regex = "병원 주소: (.+)\\n거리: (.+)m\\n전화번호: (.+)\\n병원명: (.+)";
-            Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-            Matcher m = p.matcher(HospitalBase);
-            while (m.find()){
-                hospitalList.add(new Hospital("\1", "\2", "\3", "\4"));
+    public class makeList(String responce) {
+        String regex = "병원 주소: (.+)\\n거리: (.+)m\\n전화번호: (.+)\\n병원명: (.+)";
+        Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(HospitalBase);
+        while (m.find()){
+                hospitalList.add(new Hospital(m.group(4),m.group(3), Integer.parseInt(m.group(2)), m.group(1)));
             }
-
         }
-    }*/
+    }
 
     /*String makeList(){
         String regex = "병원 주소: (.+)\\n거리: (.+)m\\n전화번호: (.+)\\n병원명: (.+)";
