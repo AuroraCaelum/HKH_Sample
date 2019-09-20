@@ -21,6 +21,8 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -97,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 HospitalInfo11 = getHospData11();
                 HospitalInfo01 = getHospData01();
                 HospitalBase = HospitalInfo11 + HospitalInfo01;
-                makeList(HospitalBase);
+                final String hb = makeList(HospitalBase).toString();
                 //String nearer = makeList();
                 /*String regex = "병원 주소: (.+)\\n거리: (.+)m\\n전화번호: (.+)\\n병원명: (.+)";
                 Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
@@ -113,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         TextView tv = (TextView)findViewById(R.id.hospinfo);
-                        tv.setText(hospitalList.toString());
+                        tv.setText(hb);
                     }
                 });
             }
@@ -250,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
                             int dist = (int)dis;
                             String distan = String.valueOf(dist);
                             buffer.append(distan);
-                            buffer.append("m\n");
+                            buffer.append("\n"); //정렬 위해 m 제거
                         } else if (tag.equals("telno")) {
                             buffer.append("전화번호: ");
                             xmlPP.next();
@@ -340,7 +342,7 @@ public class MainActivity extends AppCompatActivity {
                             int dist = (int)dis;
                             String distan = String.valueOf(dist);
                             buffer.append(distan);
-                            buffer.append("m\n");
+                            buffer.append("\n"); //정렬 위해 m 제거
                         } else if (tag.equals("telno")) {
                             buffer.append("전화번호: ");
                             xmlPP.next();
@@ -384,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
 
-    public static List<Hospital> hospitalList;
+    //public static List<Hospital> hospitalList;
 
     class Hospital {
         String name;
@@ -398,16 +400,34 @@ public class MainActivity extends AppCompatActivity {
             this.distance = distance;
             this.addr = addr;
         }
+
+        public int getDistance() {
+            return this.distance;
+        }
     }
 
     public List<Hospital> makeList(String responce) {
+        List<Hospital> hospitalList;
         hospitalList = new ArrayList<>();
         String regex = "병원 주소: (.+)\\n거리: (.+)m\\n전화번호: (.+)\\n병원명: (.+)";
         Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(responce);
+        Log.i("BASE", responce);
         while (m.find()) {
             hospitalList.add(new Hospital(m.group(4), m.group(3), Integer.parseInt(m.group(2)), m.group(1)));
         }
+        Collections.sort(hospitalList, new Comparator<Hospital>() {
+            @Override
+            public int compare(Hospital hospital, Hospital t1) {
+                if (hospital.getDistance() < t1.getDistance()) {
+                    return -1;
+                } else if (hospital.getDistance() > t1.getDistance()) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
+        Log.i("INFO", "Sort Ended");
         return hospitalList;
     }
 }
