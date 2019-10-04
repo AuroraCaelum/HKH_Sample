@@ -407,8 +407,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public List<Hospital> makeList(String responce) {
-        List<Hospital> hospitalList;
-        hospitalList = new ArrayList<>();
+        List<Hospital> hospitalList = new ArrayList<>();
         String regex = "병원 주소: (.+)\\n거리: (.+)m\\n전화번호: (.+)\\n병원명: (.+)";
         Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(responce);
